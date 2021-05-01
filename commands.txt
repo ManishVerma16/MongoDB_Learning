@@ -194,10 +194,83 @@ ex:
 
 2. R  ---> Retrieval/Read
 --------------------------
-db.collection.find()
-db.collection.findOne()
+db.collection.find()        ---> return all documents
+db.collection.findOne()     ---> return one document only
 
 ex:
 > db.Employees.find()
 { "_id" : ObjectId("608d31d9b7b5bc4b7c433a20"), "eno" : 101, "ename" : "Ravi", "esal" : 10000, "eaddress" : "Delhi" }   
+{ "_id" : ObjectId("608d3417b7b5bc4b7c433a21"), "eno" : 102, "ename" : "Raman", "esal" : 12000, "eaddress" : "Jaipur" } 
+{ "_id" : ObjectId("608d342eb7b5bc4b7c433a22"), "eno" : 103, "ename" : "Ram", "esal" : 15000, "eaddress" : "Jammu" }    
+{ "_id" : ObjectId("608d3442b7b5bc4b7c433a23"), "eno" : 103, "ename" : "Ramesh", "esal" : 11000, "eaddress" : "Delhi" } 
 >
+
+> db.Employees.find().pretty()   ---> return documents in readable format
+{
+        "_id" : ObjectId("608d31d9b7b5bc4b7c433a20"),
+        "eno" : 101,
+        "ename" : "Ravi",
+        "esal" : 10000,
+        "eaddress" : "Delhi"
+}
+{
+        "_id" : ObjectId("608d3417b7b5bc4b7c433a21"),
+        "eno" : 102,
+        "ename" : "Raman",
+        "esal" : 12000,
+        "eaddress" : "Jaipur"
+}
+{
+        "_id" : ObjectId("608d342eb7b5bc4b7c433a22"),       
+        "eno" : 103,
+        "ename" : "Ram",
+        "esal" : 15000,
+        "eaddress" : "Jammu"
+}
+{
+        "_id" : ObjectId("608d3442b7b5bc4b7c433a23"),       
+        "eno" : 103,
+        "ename" : "Ramesh",
+        "esal" : 11000,
+        "eaddress" : "Delhi"
+}
+>
+
+3. U ---> Update: to update document
+------------------------------------
+
+db.collection.updateOne()
+db.collection.updateMany()
+db.collection.replaceOne()
+
+> db.Employees.updateOne({ename: "Ram"}, {$set: {esal:15500}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+>
+
+4. D ---> Delete: to delete document
+------------------------------------
+
+db.collection.deleteOne()
+db.collection.deleteMany()
+
+> db.Employees.deleteOne({ename: "Ram"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+>
+
+
+## It is not required to create collections explicitly. Whenever we are trying to insert documents, collections will be automatically created.
+
+ex: 
+> use testDB
+switched to db testDB
+> db.Employees.insertOne({eno:103, ename:"Ram", esal:15500,eaddress:"Noida"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("608d3b54b7b5bc4b7c433a25")
+}
+
+> show collections
+Employees
+> db.Employees.find()
+{ "_id" : ObjectId("608d3b54b7b5bc4b7c433a25"), "eno" : 103, "ename" : "Ram", "esal" : 15500, "eaddress" : "Noida" }    
+> 
