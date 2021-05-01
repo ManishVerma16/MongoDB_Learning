@@ -85,3 +85,119 @@ DB methods:
         db.unsetWriteConcern(<write concern doc>) - unsets the write concern for writes to the db
         db.version() current version of the server
         db.watch() - opens a change stream cursor for a database to report on all  changes to its non-system collections.
+
+
+> show dbs      
+admin    0.000GB
+config   0.000GB
+> db.createCollection('Students')
+{ "ok" : 1 }
+> db.createCollection('Customers')
+{ "ok" : 1 }
+> show collections
+Customers
+Students
+> show dbs      
+admin    0.000GB
+config   0.000GB
+ishdb    0.000GB
+local    0.000GB
+
+
+
+#   to create a database
+-------------------------
+> use ishdb
+switched to db ishdb
+
+#   to create collections
+--------------------------
+> db.createCollection("employees")
+{ "ok" : 1 }
+
+> show dbs      
+admin    0.000GB
+config   0.000GB
+ishdb    0.000GB
+local    0.000GB
+
+
+# to show collections
+---------------------
+> show collections
+employees
+
+# to drop collection
+---------------------
+
+db.collectionname.drop()
+
+> show collections  
+employees
+> db.employees.drop()
+true
+> show collections   
+> show dbs     -> ishdb not show coz dbalteast one collection is required in db    
+admin    0.000GB
+config   0.000GB
+local    0.000GB
+
+
+> db.createCollection('Students')
+{ "ok" : 1 }
+> db.createCollection('Customers')
+{ "ok" : 1 }
+
+> show collections
+Customers
+Students
+
+> show dbs      
+admin    0.000GB
+config   0.000GB
+ishdb    0.000GB
+local    0.000GB
+
+
+> db.createCollection('Students')
+{ "ok" : 1 }
+> db.createCollection('Customers')
+{ "ok" : 1 }
+
+> show collections
+Customers
+Students
+
+> show dbs      
+admin    0.000GB
+config   0.000GB
+ishdb    0.000GB
+local    0.000GB
+
+
+#   Basic CRUD Operations:
+--------------------------
+
+1. C ----> Creation:  to insert document into collection
+
+db.collection.insertOne()
+db.collection.insertMany()
+db.collection.insert()
+
+ex: 
+> db.Employees.insertOne({eno:101, ename:"Ravi", esal:10000,eaddress:"Delhi"}) 
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("608d311fb7b5bc4b7c433a1e")
+}
+>
+
+2. R  ---> Retrieval/Read
+--------------------------
+db.collection.find()
+db.collection.findOne()
+
+ex:
+> db.Employees.find()
+{ "_id" : ObjectId("608d31d9b7b5bc4b7c433a20"), "eno" : 101, "ename" : "Ravi", "esal" : 10000, "eaddress" : "Delhi" }   
+>
