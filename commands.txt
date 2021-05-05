@@ -273,4 +273,101 @@ switched to db testDB
 Employees
 > db.Employees.find()
 { "_id" : ObjectId("608d3b54b7b5bc4b7c433a25"), "eno" : 103, "ename" : "Ram", "esal" : 15500, "eaddress" : "Noida" }    
-> 
+>
+
+
+## Capped collections
+
+db.createCollection(name) -> this will create a normal document
+
+one use case:
+        max 1000 documents --> 1001 documents
+        size : 3736578 bytes only --> if space completed
+
+But whenever we have some requirements to put restriction on max no. of documents or size of collection then we need to use capped collections.
+ex: capped
+        max 1000 documents
+        size : size allocated to the collection
+
+db.createCollection(name, options)
+
+db.createCollection("name", {capped: true, size: size in bytes, max: no. of documents})
+
+        old document will be delete automatically based on time stamp.
+
+If capped is true means that if size exceeds or maximum number of documents reached, then oldest
+entry will be deleted automatically.
+
+1. db.createCollection("name") --> Normal collection
+2. db.createCollection("name", {capped: true}) --> Invalid collection
+        ex: > db.createCollection("testCollection",{capped:true})
+        {
+                "ok" : 0,
+                "errmsg" : "the 'size' field is required when 'capped' is true",
+                "code" : 72,
+                "codeName" : "InvalidOptions"
+        }
+        > 
+
+
+3. db.createCollection("testCollection", {capped: true, size: 365675})  --> Valid collection
+{ "ok" : 1 }
+> show collections
+Customer
+Employees
+Students
+testCollection    
+>
+
+4. db.createCollection("testCollection1", {size: 365675})  ---> Invalid collection
+{
+        "ok" : 0,
+        "errmsg" : "the 'capped' field needs to be true when either the 'size' or 'max' fields are present",
+        "code" : 72,
+        "codeName" : "InvalidOptions"
+}
+>
+
+5. db.createCollection("testCollection2", {capped: true, size: 365675, max: 1000})  ---> Valid collection
+        { "ok" : 1 }
+> show collections
+Customer
+Employees
+Students
+testCollection    
+testCollection2   
+>
+
+6. db.createCollection("testCollection1", {capped: true, size: 365675, max: 1})
+
+ex: db.testCollection1.insertOne({id: 1001, ename:"Rishi"})  
+        {
+                "acknowledged" : true,
+                "insertedId" : ObjectId("609222a31e6d7e120a44fd28")
+        }
+        
+        > db.testCollection1.find()
+        { "_id" : ObjectId("609222a31e6d7e120a44fd28"), "id" : 1001, "ename" : "Rishi" }
+        
+
+        > db.testCollection1.insertOne({id: 1002, ename:"Rishima"})
+        {
+                "acknowledged" : true,
+                "insertedId" : ObjectId("609222d61e6d7e120a44fd29")
+        }
+        > db.testCollection1.find()
+        { "_id" : ObjectId("609222d61e6d7e120a44fd29"), "id" : 1002, "ename" : "Rishima" }
+        >
+
+
+
+use case:
+---------
+fresher jobs portal ---> students registered
+        students collection --> 1 lakh entires
+        job collection --> 100 jobs available
+
+
+
+
+
