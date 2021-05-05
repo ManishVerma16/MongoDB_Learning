@@ -368,6 +368,97 @@ fresher jobs portal ---> students registered
         job collection --> 100 jobs available
 
 
+Inserting Documents in the collection (C --> Create Operation):
+---------------------------------------------------------------
+
+db.collection.insertOne()
+db.collection.insertMany()
+db.collection.insert()
+
+
+db.collection.insertOne():
+--------------------------
+To insert only one document.
+
+db.collection.insertOne({...})
+        as an argument takes only one javascript object
+
+ex: 
+> db.Employees.insertOne({eno:101, ename:"Ravi", esal:10000,eaddress:"Delhi"}) 
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("608d311fb7b5bc4b7c433a1e")
+}
+>
+
+
+db.collection.insertMany():
+---------------------------
+To insert multiple documents
+
+db.collection.insertMany([{...}, {...}, {...}])
+
+> db.Employees.insertMany([{eno:101, ename:"Ravi", esal:10000,eaddress:"Delhi"},{eno:102, ename:"Rishi", esal:10000,eaddress:"Delhi"}])
+
+
+db.collection.insertMany():
+---------------------------
+To insert either single or multiple documents
+
+db.collection.insert({...})
+db.collection.insert([{...}, {...}, {...}])
+
+> db.testCollection.insert({eno:104, ename:"Ram Nath", esal:11500,eaddress:"GZB"})
+WriteResult({ "nInserted" : 1 })
+
+> db.testCollection.insert([{eno:103, ename:"Ram", esal:10500,eaddress:"Noida"},{eno:105, ename:"Ramesh", esal:12000,eaddress:"Mumbai"}])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 2,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+>
+
+var emp = {};
+emp.name = "Katrina"
+emp.age = 28
+emp.mob = 9876543210
+
+> emp
+{ "name" : "Katrina", "age" : 28, "mob" : 9876543210 }      
+
+> db.testCollection1.insert(emp)
+WriteResult({ "nInserted" : 1 })
+
+> emp1
+{ "name" : "Ishika", "age" : 25, "mob" : 9886435211 }       
+> db.testCollection1.insert([emp1])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 1,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+>
+
+db.collection.insertOne(document)
+db.collection.insertMany(document)
+db.collection.insert(document)
+db.collection.insert([documents])
+
+
+Inserting document from javascript file:
+----------------------------------------
+
 
 
 
