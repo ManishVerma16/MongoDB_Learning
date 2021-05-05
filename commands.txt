@@ -458,7 +458,112 @@ db.collection.insert([documents])
 
 Inserting document from javascript file:
 ----------------------------------------
+studentsdb  ---> database
+students  ---> collection
+in this collection we have to insert documents.
 
+students.js:  name of the file need not to be same as the collection name.
+------------
+db.students.insertOne({name: "Durga", rollno: 101, marks: 90})
+db.students.insertOne({name: "Ravi", rollno: 102, marks: 92})
+db.students.insertOne({name: "Devesh", rollno: 103, marks: 94})
+db.students.insertOne({name: "Rishi", rollno: 104, marks: 93})
+
+to load document from file:
+
+load(path)
+
+> load( "E:\\programming\\mongoDB\\students.js")
+true
+
+> show collections 
+students
+> db.students.find().pretty()
+{
+        "_id" : ObjectId("60926a1f1e6d7e120a44fd31"),
+        "name" : "Durga",
+        "rollno" : 101,
+        "marks" : 90
+}
+{
+        "_id" : ObjectId("60926a1f1e6d7e120a44fd32"),
+        "name" : "Ravi",
+        "rollno" : 102,
+        "marks" : 92
+}
+{
+        "_id" : ObjectId("60926a1f1e6d7e120a44fd33"),       
+        "name" : "Devesh",
+        "rollno" : 103,
+        "marks" : 94
+}
+{
+        "_id" : ObjectId("60926a1f1e6d7e120a44fd34"),       
+        "name" : "Rishi",
+        "rollno" : 104,
+        "marks" : 93
+}
+
+
+Inserting document from json file (mongoimport tool):
+----------------------------------
+In json file, the data should be in array form.
+Make sure the data should be of json only.
+
+
+json vs javascript object:
+--------------------------
+In javascript object, quote symbols for keys are optional.
+But in JSON, quote symbols are mandatory for keys.
+
+db.collection.insertOne(javascript object)
+                        Here quote symbols are optional
+
+students.json:
+--------------
+
+[
+    {
+        "name": "Bunny",
+        "rollno": 666
+    },
+    {
+        "name": "Chinny",
+        "rollno": 777
+    },
+    {
+        "name": "Pinny",
+        "rollno": 888
+    },
+    {
+        "name": "Tonny",
+        "rollno": 999
+    }
+]
+
+
+mongod ---> tool to start MongoDB server
+mongo  ---> tool to start MongoDB shell
+mongoimport ---> tool to import document for json file into mongoDB
+
+mongoimport command should be executed from the command prompt but not from the shell.
+
+Insert all document from json file into MongoDB
+database name: testDB
+collection name: students100
+
+from the command prompt, go to location where json file is available.
+mongoimport --db databaseName --collection collectionName  --file fileName --jsonArray
+
+ex: 
+mongoimport --db testDB --collection students100  --file students.json --jsonArray
+
+
+2021-05-05T16:01:11.206+0530    connected to: mongodb://localhost/
+2021-05-05T16:01:11.420+0530    4 document(s) imported successfully. 0 document(s) failed to import.
+
+mongoimport create database and collection automatically if not available.
+if collection already available then the new document will be appended.
 
 
 
